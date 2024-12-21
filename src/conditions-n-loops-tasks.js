@@ -64,7 +64,8 @@ function getMaxNumber(a, b, c) {
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  */
 function canQueenCaptureKing(queen, king) {
-  return queen.x === king.x || queen.y === king.y || queen.x - king.x === queen.y - king.y;
+  const bool = queen.x === king.x || queen.y === king.y;
+  return bool || Math.abs(queen.x - king.x) === Math.abs(queen.y - king.y);
 }
 
 /**
@@ -86,7 +87,7 @@ function canQueenCaptureKing(queen, king) {
  *  3, 0, 3   => false
  */
 function isIsoscelesTriangle(a, b, c) {
-  if (a > b + c || b > a + c || c > b + a) return false;
+  if (a > b + c || b > a + c || c > b + a || a * b * c === 0) return false;
   return a === b || a === c || b === c;
 }
 
@@ -105,7 +106,7 @@ function isIsoscelesTriangle(a, b, c) {
  *  26  => XXVI
  */
 function convertToRomanNumerals(num) {
-  let obj = {
+  const obj = {
     1: 'I',
     2: 'II',
     3: 'III',
@@ -113,20 +114,20 @@ function convertToRomanNumerals(num) {
     5: 'V',
     6: 'VI',
     7: 'VII',
-    8: 'VII',
+    8: 'VIII',
     9: 'IX',
-    10: 'X' 
-  }
+    10: 'X',
+  };
 
   if (num < 10) return obj[num];
 
   let res = '';
-  let strNum = String(num);
-  let countNum = Number(strNum[0]);
+  const strNum = String(num);
+  const countNum = Number(strNum[0]);
   for (let i = 0; i < countNum; i += 1) {
     res += 'X';
   }
-  res += obj[Number(strNum[1]);
+  res += obj[Number(strNum[1])] ?? '';
   return res;
 }
 
@@ -146,29 +147,29 @@ function convertToRomanNumerals(num) {
  *  '1950.2'  => 'one nine five zero point two'
  */
 function convertNumberToString(numberStr) {
- let obj = {
-   '0': 'zero',
-   '1': 'one',
-   '2': 'two',
-   '3': 'three',
-    '4': 'four',
-    '5': 'five',
-    '6': 'six',
-    '7': 'seven',
-    '8': 'eight',
-    '9': 'nine',
-    '.': 'point',
-    ',': 'point',
-   '-': 'minus'
- }
+  const obj = {
+    0: `zero`,
+    1: `one`,
+    2: `two`,
+    3: `three`,
+    4: `four`,
+    5: `five`,
+    6: `six`,
+    7: `seven`,
+    8: `eight`,
+    9: `nine`,
+    '.': `point`,
+    ',': `point`,
+    '-': `minus`,
+  };
 
-  let res = '';
+  let res = ``;
   for (let i = 0; i < numberStr.length; i += 1) {
     res += obj[numberStr[i]];
-   if (i !== numberStr.length - 1) res += ' ';
+    if (i !== numberStr.length - 1) res += ` `;
   }
 
-   return res;
+  return res;
 }
 
 /**
