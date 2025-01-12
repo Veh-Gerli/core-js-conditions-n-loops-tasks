@@ -314,36 +314,42 @@ function getBalanceIndex(arr) {
  *        ]
  */
 function getSpiralMatrix(size) {
- let arr = new Array(size);
- for (let i = 0; i < size; i++) {
-   arr[i] = new Array(size);
-}
- let curLength = 1;
- let x0 = 0, x1 = size - 1;
- let y0 = 0, y1 = size - 1;
-    while (curLength <= size * size) {
-        for (let i = y0; i <= y1; i++) {
-            arr[x0][i] = curLength++;
-        }
-        x0++;
-        for (let i = x0; i <= x1; i++) {
-            arr[i][y1] = curLength++;
-        }
-        y1--;
-        if (x0 <= x1) {
-            for (let i = y1; i >= y0; i--) {
-                arr[x1][i] = curLength++;
-            }
-            x1--;
-        }
-        if (y0 <= y1) {
-            for (let i = x1; i >= x0; i--) {
-                arr[i][y0] = curLength++;
-            }
-            y0++;
-        }
+  const arr = new Array(size);
+  for (let i = 0; i < size; i += 1) {
+    arr[i] = new Array(size);
+  }
+  let curLength = 1;
+  let x0 = 0;
+  let x1 = size - 1;
+  let y0 = 0;
+  let y1 = size - 1;
+  while (curLength <= size * size) {
+    for (let i = y0; i <= y1; i += 1) {
+      arr[x0][i] = curLength;
+      curLength += 1;
     }
-return arr;
+    x0 += 1;
+    for (let i = x0; i <= x1; i += 1) {
+      arr[i][y1] = curLength;
+      curLength += 1;
+    }
+    y1 -= 1;
+    if (x0 <= x1) {
+      for (let i = y1; i >= y0; i -= 1) {
+        arr[x1][i] = curLength;
+        curLength += 1;
+      }
+      x1 -= 1;
+    }
+    if (y0 <= y1) {
+      for (let i = x1; i >= x0; i -= 1) {
+        arr[i][y0] = curLength;
+        curLength += 1;
+      }
+      y0 += 1;
+    }
+  }
+  return arr;
 }
 
 /**
@@ -361,24 +367,24 @@ return arr;
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(matrix) {
-        let n = matrix.length;
-    if (n === 0 || n !== matrix[0].length) return [];
-    for (let layer = 0; layer < n / 2; layer++) {
-        let first = layer;
-        let last = n - 1 - layer;
-        for (let i = first; i < last; i++) {
-            let offset = i - first;
-            let top = matrix[first][i];
-            matrix[first][i] = matrix[last - offset][first];
-            matrix[last - offset][first] = matrix[last][last - offset];
-            matrix[last][last - offset] = matrix[i][last];
-            matrix[i][last] = top;
-        }
+function rotateMatrix(matrixI) {
+  const matrix = matrixI;
+  const n = matrix.length;
+  if (n === 0 || n !== matrix[0].length) return [];
+  for (let layer = 0; layer < n / 2; layer += 1) {
+    const first = layer;
+    const last = n - 1 - layer;
+    for (let i = first; i < last; i += 1) {
+      const offset = i - first;
+      const top = matrix[first][i];
+      matrix[first][i] = matrix[last - offset][first];
+      matrix[last - offset][first] = matrix[last][last - offset];
+      matrix[last][last - offset] = matrix[i][last];
+      matrix[i][last] = top;
     }
-    return matrix;
+  }
+  return matrix;
 }
-
 
 /**
  * Sorts an array of numbers in ascending order in place.
@@ -394,37 +400,38 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(arr) {
-    function partition(low, high) {
-        const pivot = arr[high];
-        let i = low - 1;
+function sortByAsc(arrI) {
+  const arr = arrI;
+  function partition(low, high) {
+    const pivot = arr[high];
+    let i = low - 1;
 
-        for (let j = low; j < high; j++) {
-            if (arr[j] <= pivot) {
-                i++;
-                const temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-            }
-        }
-
-        const temp = arr[i + 1];
-        arr[i + 1] = arr[high];
-        arr[high] = temp;
-
-        return i + 1;
+    for (let j = low; j < high; j += 1) {
+      if (arr[j] <= pivot) {
+        i += 1;
+        const temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+      }
     }
 
-    function sort(low, high) {
-        if (low < high) {
-            const pivotIndex = partition(low, high);
-            sort(low, pivotIndex - 1);
-            sort(pivotIndex + 1, high);
-        }
-    }
+    const temp = arr[i + 1];
+    arr[i + 1] = arr[high];
+    arr[high] = temp;
 
-    sort(0, arr.length - 1);
-    return arr;
+    return i + 1;
+  }
+
+  function sort(low, high) {
+    if (low < high) {
+      const pivotIndex = partition(low, high);
+      sort(low, pivotIndex - 1);
+      sort(pivotIndex + 1, high);
+    }
+  }
+
+  sort(0, arr.length - 1);
+  return arr;
 }
 
 /**
