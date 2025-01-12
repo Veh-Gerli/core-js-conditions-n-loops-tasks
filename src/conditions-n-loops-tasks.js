@@ -361,9 +361,24 @@ return arr;
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+        let n = matrix.length;
+    if (n === 0 || n !== matrix[0].length) return [];
+    for (let layer = 0; layer < n / 2; layer++) {
+        let first = layer;
+        let last = n - 1 - layer;
+        for (let i = first; i < last; i++) {
+            let offset = i - first;
+            let top = matrix[first][i];
+            matrix[first][i] = matrix[last - offset][first];
+            matrix[last - offset][first] = matrix[last][last - offset];
+            matrix[last][last - offset] = matrix[i][last];
+            matrix[i][last] = top;
+        }
+    }
+    return matrix;
 }
+
 
 /**
  * Sorts an array of numbers in ascending order in place.
