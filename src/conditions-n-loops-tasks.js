@@ -400,37 +400,40 @@ function rotateMatrix(matrixI) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
+
+function heapify(arrI, n, i) {
+  let largest = i;
+  const left = 2 * i + 1;
+  const right = 2 * i + 2;
+  const arr = arrI;
+
+  if (left < n && arr[left] > arr[largest]) {
+    largest = left;
+  }
+
+  if (right < n && arr[right] > arr[largest]) {
+    largest = right;
+  }
+
+  if (largest !== i) {
+    [arr[i], arr[largest]] = [arr[largest], arr[i]];
+    heapify(arr, n, largest);
+  }
+}
+
 function sortByAsc(arrI) {
   const arr = arrI;
-  function partition(low, high) {
-    const pivot = arr[high];
-    let i = low - 1;
+  const n = arr.length;
 
-    for (let j = low; j < high; j += 1) {
-      if (arr[j] <= pivot) {
-        i += 1;
-        const temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-      }
-    }
-
-    const temp = arr[i + 1];
-    arr[i + 1] = arr[high];
-    arr[high] = temp;
-
-    return i + 1;
+  for (let i = Math.floor(n / 2) - 1; i >= 0; i -= 1) {
+    heapify(arr, n, i);
   }
 
-  function sort(low, high) {
-    if (low < high) {
-      const pivotIndex = partition(low, high);
-      sort(low, pivotIndex - 1);
-      sort(pivotIndex + 1, high);
-    }
+  for (let i = n - 1; i > 0; i -= 1) {
+    [arr[0], arr[i]] = [arr[i], arr[0]];
+    heapify(arr, i, 0);
   }
 
-  sort(0, arr.length - 1);
   return arr;
 }
 
@@ -452,29 +455,34 @@ function sortByAsc(arrI) {
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
 function shuffleChar(str, iterations) {
+  const { length } = str;
+  const result = new Array(length); // Массив для хранения результата
   let currentString = str;
+
+  // Используем Map для отслеживания уже встреченных состояний
   const seenStates = new Map();
 
-  for (let i = 0; i < iterations; i += 1) {
+  for (let i = 0; i < iterations; i++) {
     if (seenStates.has(currentString)) {
+      // Если состояние уже встречалось, выходим
       break;
     }
 
     seenStates.set(currentString, i);
 
-    let evenChars = '';
-    let oddChars = '';
-    const { length } = currentString;
-
-    for (let j = 0; j < length; j += 1) {
+    // Заполняем массив результатами
+    for (let j = 0; j < length; j++) {
       if (j % 2 === 0) {
-        evenChars += currentString[j];
+        result[j / 2] = currentString[j]; // Четные индексы
       } else {
-        oddChars += currentString[j];
+        result[Math.floor(length / 2) + Math.floor(j / 2)] = currentString[j]; // Нечетные индексы
       }
     }
 
-    currentString = evenChars + oddChars;
+    currentString = '';
+    for (let k = 0; k < length; k++) {
+      currentString += result[k]; // Формируем новую строку из массива
+    }
   }
 
   return currentString;
