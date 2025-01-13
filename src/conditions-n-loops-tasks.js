@@ -456,32 +456,29 @@ function sortByAsc(arrI) {
  */
 function shuffleChar(str, iterations) {
   const { length } = str;
-  const result = new Array(length); // Массив для хранения результата
+  const result = new Array(length);
   let currentString = str;
 
-  // Используем Map для отслеживания уже встреченных состояний
   const seenStates = new Map();
 
-  for (let i = 0; i < iterations; i++) {
+  for (let i = 0; i < iterations; i += 1) {
     if (seenStates.has(currentString)) {
-      // Если состояние уже встречалось, выходим
       break;
     }
 
     seenStates.set(currentString, i);
 
-    // Заполняем массив результатами
-    for (let j = 0; j < length; j++) {
+    for (let j = 0; j < length; j += 1) {
       if (j % 2 === 0) {
-        result[j / 2] = currentString[j]; // Четные индексы
+        result[j / 2] = currentString[j];
       } else {
-        result[Math.floor(length / 2) + Math.floor(j / 2)] = currentString[j]; // Нечетные индексы
+        result[Math.floor(length / 2) + Math.floor(j / 2)] = currentString[j];
       }
     }
 
     currentString = '';
-    for (let k = 0; k < length; k++) {
-      currentString += result[k]; // Формируем новую строку из массива
+    for (let k = 0; k < length; k += 1) {
+      currentString += result[k];
     }
   }
 
