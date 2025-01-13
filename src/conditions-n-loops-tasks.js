@@ -513,8 +513,7 @@ function getNearestBigger(number) {
 
   digits.reverse();
 
-  const len = digits.length;
-  let i = len - 2;
+  let i = digits.length - 2;
 
   while (i >= 0 && digits[i] >= digits[i + 1]) {
     i -= 1;
@@ -524,20 +523,20 @@ function getNearestBigger(number) {
     return number;
   }
 
-  let j = len - 1;
+  let j = digits.length - 1;
   while (digits[j] <= digits[i]) {
     j -= 1;
   }
 
   [digits[i], digits[j]] = [digits[j], digits[i]];
 
-  let left = i + 1;
-  let right = len - 1;
+  let leftInd = i + 1;
+  let rightInd = digits.length - 1;
 
-  while (left < right) {
-    [digits[left], digits[right]] = [digits[right], digits[left]];
-    left += 1;
-    right -= 1;
+  while (leftInd < rightInd) {
+    [digits[leftInd], digits[rightInd]] = [digits[rightInd], digits[leftInd]];
+    leftInd += 1;
+    rightInd -= 1;
   }
 
   let result = 0;
